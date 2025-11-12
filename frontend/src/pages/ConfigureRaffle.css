@@ -1,0 +1,165 @@
+.configure-raffle {
+  animation: fadeIn 0.4s ease-in;
+}
+
+.raffle-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.post-preview,
+.raffle-config {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.post-preview h2,
+.raffle-config h2 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.preview-card {
+  background: var(--card-background);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.preview-card img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.preview-info {
+  padding: 1.5rem;
+}
+
+.preview-info p {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.preview-stats {
+  display: flex;
+  gap: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.preview-stats span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.config-card {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.form-group input[type='number'] {
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input[type='number']:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.checkbox-group input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.checkbox-group label span {
+  font-weight: normal;
+}
+
+.info-box {
+  background: var(--background);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.info-box h3 {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.info-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-box li {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-box li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .raffle-content {
+    grid-template-columns: 1fr;
+  }
+
+  .config-card {
+    padding: 1.5rem;
+  }
+
+  .action-buttons {
+    flex-direction: column-reverse;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
