@@ -1,5 +1,6 @@
 node_modules/
 .env
+google.env
 .DS_Store
 *.log
 logs/
