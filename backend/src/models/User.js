@@ -13,14 +13,25 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    password: {
+      type: String,
+      // Required only for email/password auth (not OAuth)
+      required: function () {
+        return this.provider === 'local';
+      },
+    },
     provider: {
       type: String,
-      enum: ['google', 'facebook', 'instagram'],
+      enum: ['local', 'google', 'facebook', 'instagram'],
       required: true,
+      default: 'local',
     },
     providerId: {
       type: String,
-      required: true,
+      // Required only for OAuth providers
+      required: function () {
+        return this.provider !== 'local';
+      },
     },
     profilePicture: {
       type: String,

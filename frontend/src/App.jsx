@@ -10,6 +10,9 @@ import SelectPost from './pages/SelectPost';
 import ConfigureRaffle from './pages/ConfigureRaffle';
 import RaffleResult from './pages/RaffleResult';
 import History from './pages/History';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import DataDeletion from './pages/DataDeletion';
 
 // Components
 import PrivateRoute from './components/PrivateRoute';
@@ -31,8 +34,13 @@ function App() {
         theme="light"
       />
       <Routes>
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/data-deletion" element={<DataDeletion />} />
 
+        {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />

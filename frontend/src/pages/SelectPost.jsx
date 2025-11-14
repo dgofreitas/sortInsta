@@ -24,7 +24,20 @@ const SelectPost = () => {
       setPosts(data);
     } catch (error) {
       console.error('Erro ao buscar posts:', error);
-      toast.error('Erro ao carregar posts. Verifique se sua conta de negócios está configurada.');
+
+      // Tratar erro específico de provider incorreto
+      if (error.response?.data?.error?.code === 'WRONG_PROVIDER') {
+        toast.error('Você precisa fazer login com sua conta do Instagram/Facebook para acessar os posts.', {
+          autoClose: 5000,
+        });
+        setTimeout(() => navigate('/login'), 3000);
+      } else if (error.response?.data?.error?.code === 'NO_BUSINESS_ACCOUNT') {
+        toast.error('Configure sua conta de negócios do Instagram primeiro.', {
+          autoClose: 5000,
+        });
+      } else {
+        toast.error('Erro ao carregar posts. Verifique se sua conta está configurada corretamente.');
+      }
     } finally {
       setLoading(false);
     }

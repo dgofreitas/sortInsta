@@ -24,21 +24,36 @@ router.get('/posts', async (req, res, next) => {
       });
     }
 
+    // Verificar se o usuário fez login com Instagram/Facebook
+    if (user.provider === 'google') {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'Para acessar posts do Instagram, você precisa fazer login com sua conta do Instagram/Facebook.',
+          code: 'WRONG_PROVIDER',
+          requiredProvider: 'instagram'
+        },
+      });
+    }
+
     if (!user.accessToken) {
       return res.status(401).json({
         success: false,
-        error: { message: 'Token de acesso do Instagram não encontrado. Faça login novamente.' },
+        error: {
+          message: 'Token de acesso do Instagram não encontrado. Faça login novamente com o Instagram.',
+          code: 'NO_ACCESS_TOKEN'
+        },
       });
     }
 
     // Se não tiver instagramBusinessAccountId, tentar obter
     if (!user.instagramBusinessAccountId) {
-      // Aqui seria necessário obter o ID da página do Facebook primeiro
-      // Por simplicidade, vamos assumir que o usuário tem uma conta de negócios
       return res.status(400).json({
         success: false,
         error: {
-          message: 'Conta de negócios do Instagram não vinculada. Vincule sua conta de negócios nas configurações.',
+          message: 'Conta de negócios do Instagram não vinculada. Configure sua conta de negócios primeiro.',
+          code: 'NO_BUSINESS_ACCOUNT',
+          needsSetup: true
         },
       });
     }

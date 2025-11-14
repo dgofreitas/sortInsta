@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiTrendingUp, FiAward, FiClock } from 'react-icons/fi';
+import { FiTrendingUp, FiAward, FiClock, FiAlertCircle } from 'react-icons/fi';
 import useAuthStore from '../store/authStore';
 import './Dashboard.css';
 
@@ -8,12 +8,24 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
 
+  const isGoogleUser = user?.provider === 'google';
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
         <h1>Bem-vindo, {user?.name}! 👋</h1>
         <p>Comece um novo sorteio ou veja seus sorteios anteriores</p>
       </div>
+
+      {isGoogleUser && (
+        <div className="warning-banner">
+          <FiAlertCircle />
+          <div>
+            <strong>Atenção:</strong> Você está logado com Google. Para realizar sorteios do Instagram,
+            você precisa fazer login com sua conta do Instagram/Facebook.
+          </div>
+        </div>
+      )}
 
       <div className="dashboard-cards">
         <div className="dashboard-card primary-card" onClick={() => navigate('/select-post')}>

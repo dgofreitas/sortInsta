@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
-import { FaFacebook, FaInstagram } from 'react-icons/fa';
+import { FaInstagram } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import authService from '../services/auth.service';
 import useAuthStore from '../store/authStore';
@@ -11,6 +11,11 @@ const Login = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { isAuthenticated } = useAuthStore();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -26,6 +31,36 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate, searchParams]);
 
+  const handleEmailLogin = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      toast.error('Preencha email e senha');
+      return;
+    }
+
+    if (isRegistering && !name) {
+      toast.error('Preencha seu nome');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      if (isRegistering) {
+        await authService.register(name, email, password);
+        toast.success('Conta criada com sucesso!');
+      } else {
+        await authService.loginWithEmail(email, password);
+        toast.success('Login realizado com sucesso!');
+      }
+      navigate('/dashboard');
+    } catch (error) {
+      toast.error(error.response?.data?.error?.message || 'Erro ao fazer login');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="login-page">
       <div className="login-container">
@@ -36,6 +71,66 @@ const Login = () => {
           </p>
         </div>
 
+        <form className="login-form" onSubmit={handleEmailLogin}>
+          {isRegistering && (
+            <div className="form-group">
+              <label htmlFor="name">Nome</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Seu nome completo"
+                required={isRegistering}
+              />
+            </div>
+          )}
+
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="seu@email.com"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Senha</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="login-btn primary-btn"
+            disabled={loading}
+          >
+            {loading ? 'Aguarde...' : isRegistering ? 'Criar Conta' : 'Entrar'}
+          </button>
+
+          <button
+            type="button"
+            className="toggle-mode-btn"
+            onClick={() => setIsRegistering(!isRegistering)}
+          >
+            {isRegistering ? 'Já tem conta? Faça login' : 'Não tem conta? Cadastre-se'}
+          </button>
+        </form>
+
+        <div className="divider">
+          <span>ou</span>
+        </div>
+
         <div className="login-buttons">
           <button
             className="login-btn google-btn"
@@ -43,14 +138,6 @@ const Login = () => {
           >
             <FcGoogle className="btn-icon" />
             <span>Continuar com Google</span>
-          </button>
-
-          <button
-            className="login-btn facebook-btn"
-            onClick={authService.loginWithFacebook}
-          >
-            <FaFacebook className="btn-icon" />
-            <span>Continuar com Facebook</span>
           </button>
 
           <button
@@ -64,8 +151,12 @@ const Login = () => {
 
         <div className="login-footer">
           <p>
-            Ao fazer login, você concorda com nossos Termos de Serviço e
-            Política de Privacidade.
+            Ao fazer login, você concorda com nossos{' '}
+            <Link to="/terms-of-service">Termos de Serviço</Link> e{' '}
+            <Link to="/privacy-policy">Política de Privacidade</Link>.
+          </p>
+          <p className="footer-links">
+            <Link to="/data-deletion">Excluir Dados</Link>
           </p>
         </div>
       </div>

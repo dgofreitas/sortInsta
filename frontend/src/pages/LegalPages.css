@@ -1,0 +1,208 @@
+.legal-page {
+  min-height: 100vh;
+  background: var(--background);
+  padding: 2rem;
+}
+
+.legal-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--card-background);
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.4s ease-in;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  transition: all 0.3s;
+}
+
+.back-link:hover {
+  color: var(--primary-dark);
+  transform: translateX(-4px);
+}
+
+.legal-container h1 {
+  color: var(--text-primary);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.last-updated {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.legal-container section {
+  margin-bottom: 2.5rem;
+}
+
+.legal-container h2 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.legal-container h3 {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-container p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.legal-container ul {
+  list-style: disc;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.legal-container li {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+}
+
+.legal-container a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.legal-container a:hover {
+  color: var(--primary-dark);
+}
+
+.legal-container strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Data Deletion Form Styles */
+.deletion-form-container {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.deletion-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.deletion-form h3 {
+  color: #856404;
+  margin: 0;
+}
+
+.warning-text {
+  color: #856404;
+  font-weight: 500;
+  margin: 0;
+}
+
+.current-user-info {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ffc107;
+}
+
+.current-user-info p {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-top: 0.25rem;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.checkbox-group span {
+  color: #856404;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .legal-page {
+    padding: 1rem;
+  }
+
+  .legal-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .legal-container h1 {
+    font-size: 2rem;
+  }
+
+  .legal-container h2 {
+    font-size: 1.25rem;
+  }
+
+  .legal-container ul {
+    margin-left: 1.25rem;
+  }
+
+  .deletion-form-container {
+    padding: 1.5rem;
+  }
+}

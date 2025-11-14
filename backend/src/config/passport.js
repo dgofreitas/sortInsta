@@ -67,7 +67,7 @@ passport.use(
   )
 );
 
-// Estratégia Facebook OAuth (também usado para Instagram)
+// Estratégia Facebook OAuth
 passport.use(
   new FacebookStrategy(
     {
@@ -107,6 +107,61 @@ passport.use(
         return done(null, user);
       } catch (error) {
         logger.error('Erro na autenticação Facebook:', error);
+        return done(error, null);
+      }
+    }
+  )
+);
+
+// Estratégia Instagram OAuth (usando Facebook Strategy com scopes do Instagram Business)
+passport.use(
+  'instagram',
+  new FacebookStrategy(
+    {
+      clientID: process.env.INSTAGRAM_APP_ID || process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.INSTAGRAM_APP_SECRET || process.env.FACEBOOK_APP_SECRET,
+      callbackURL: process.env.INSTAGRAM_CALLBACK_URL,
+      profileFields: ['id', 'emails', 'name', 'picture.type(large)'],
+      // Scopes válidos para Instagram Business API
+      scope: [
+        'email',
+        'public_profile',
+        'instagram_basic',
+        'pages_show_list',
+        'pages_read_engagement',
+        'business_management'
+      ],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await User.findOne({
+          providerId: profile.id,
+          provider: 'instagram',
+        });
+
+        if (user) {
+          user.accessToken = accessToken;
+          user.refreshToken = refreshToken;
+          user.lastLogin = new Date();
+          await user.save();
+          logger.info(`Usuário Instagram existente logado: ${user.email}`);
+        } else {
+          user = await User.create({
+            email: profile.emails?.[0]?.value || `${profile.id}@instagram.com`,
+            name: `${profile.name.givenName} ${profile.name.familyName}`,
+            provider: 'instagram',
+            providerId: profile.id,
+            profilePicture: profile.photos?.[0]?.value,
+            accessToken,
+            refreshToken,
+            lastLogin: new Date(),
+          });
+          logger.info(`Novo usuário Instagram criado: ${user.email}`);
+        }
+
+        return done(null, user);
+      } catch (error) {
+        logger.error('Erro na autenticação Instagram:', error);
         return done(error, null);
       }
     }
