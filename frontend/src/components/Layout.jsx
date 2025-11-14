@@ -54,8 +54,16 @@ const Layout = () => {
 
           <div className="header-right">
             <div className="user-info">
-              {user?.profilePicture && (
-                <img src={user.profilePicture} alt={user.name} />
+              {user?.profilePicture ? (
+                <img
+                  src={user.profilePicture}
+                  alt={user.name}
+                  onError={(e) => e.target.style.display = 'none'}
+                />
+              ) : (
+                <div className="user-avatar-placeholder">
+                  {user?.name?.charAt(0).toUpperCase()}
+                </div>
               )}
               <span>{user?.name}</span>
             </div>

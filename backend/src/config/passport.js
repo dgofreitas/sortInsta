@@ -37,9 +37,10 @@ passport.use(
         });
 
         if (user) {
-          // Atualizar tokens e última data de login
+          // Atualizar tokens, foto de perfil e última data de login
           user.accessToken = accessToken;
           user.refreshToken = refreshToken;
+          user.profilePicture = profile.photos[0]?.value;
           user.lastLogin = new Date();
           await user.save();
           logger.info(`Usuário Google existente logado: ${user.email}`);
@@ -87,6 +88,7 @@ passport.use(
         if (user) {
           user.accessToken = accessToken;
           user.refreshToken = refreshToken;
+          user.profilePicture = profile.photos?.[0]?.value;
           user.lastLogin = new Date();
           await user.save();
           logger.info(`Usuário Facebook existente logado: ${user.email}`);
@@ -142,6 +144,7 @@ passport.use(
         if (user) {
           user.accessToken = accessToken;
           user.refreshToken = refreshToken;
+          user.profilePicture = profile.photos?.[0]?.value;
           user.lastLogin = new Date();
           await user.save();
           logger.info(`Usuário Instagram existente logado: ${user.email}`);
