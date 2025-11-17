@@ -9,6 +9,12 @@ const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const [imageError, setImageError] = React.useState(false);
+
+  // Reset imageError quando o usuário mudar
+  React.useEffect(() => {
+    setImageError(false);
+  }, [user?.profilePicture]);
 
   const handleLogout = async () => {
     await logout();
@@ -54,11 +60,11 @@ const Layout = () => {
 
           <div className="header-right">
             <div className="user-info">
-              {user?.profilePicture ? (
+              {user?.profilePicture && !imageError ? (
                 <img
                   src={user.profilePicture}
                   alt={user.name}
-                  onError={(e) => e.target.style.display = 'none'}
+                  onError={() => setImageError(true)}
                 />
               ) : (
                 <div className="user-avatar-placeholder">
